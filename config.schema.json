@@ -1,0 +1,81 @@
+{
+  "pluginAlias": "AqaraIrController",
+  "pluginType": "platform",
+  "headerDisplay": "This plugin is currently experimental and under development.",
+  "footerDisplay": "For help please see the [homepage](https://github.com/vaxter/homebridge-aqara-ir-controller)",
+  "singular": true,
+  "customUi": true,
+  "customUiPath": "./dist/homebridge-ui",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "region": {
+        "title": "API server region",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "cn",
+          "us",
+          "kr",
+          "ru",
+          "de",
+          "sg"
+        ],
+        "default": "cn",
+        "description": "Select region of Aqara API server"
+      },
+      "lang": {
+        "title": "API response Language",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "en",
+          "zh"
+        ],
+        "default": "en",
+        "description": "Select language of the API response"
+      },
+      "appId": {
+        "title": "AppId",
+        "type": "string",
+        "required": true
+      },
+      "keyId": {
+        "title": "KeyId",
+        "type": "string",
+        "required": true
+      },
+      "appKey": {
+        "title": "appKey",
+        "type": "string",
+        "required": true
+      },
+      "version": {
+        "title": "appKey",
+        "type": "string",
+        "default": "v3.0",
+        "required": true
+      },
+      "username": {
+        "title": "Aqara username, email or mobile number",
+        "type": "string",
+        "required": true
+      },
+      "positionId": {
+        "title": "positionId of Aqara Home",
+        "type": "string",
+        "required": false
+      },
+      "accessToken": {
+        "title": "Auth Token",
+        "type": "string",
+        "required": false
+      },
+      "refreshToken": {
+        "title": "Refresh Token",
+        "type": "string",
+        "required": false
+      }
+    }
+  }
+}

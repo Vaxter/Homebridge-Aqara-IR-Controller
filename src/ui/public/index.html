@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="main.css">
+
+<div id="enter-code" class="form-group" style="display: none">
+  <label for="authCode">Authentication code</label>
+  <input type="text" class="form-control" id="authCode" aria-describedby="authCodeHelp">
+  <small id="authCodeHelp" class="form-text text-muted">Authentication code that you have received through email or
+    SMS</small>
+  <button id="authenticate" type="submit" class="btn btn-primary" onclick="authenticate(pluginConfig[0].username, document.getElementById('authCode').value)">
+    Authenticate
+  </button>
+</div>
+
+<div id="enter-home" class="form-group" style="display: none">
+  <label for="positionId">Authentication code</label>
+  <select class="form-control" id="positionId" aria-describedby="homeHelp">
+  </select>
+  <small id="homeHelp" class="form-text text-muted">Select your home to import IR AC controllers from</small>
+  <button id="selectHome" type="submit" class="btn btn-primary" onclick="saveHome()">
+    Confirm
+  </button>
+</div>
+
+<script type="text/javascript">
+  let schemaConfig = null;
+  let pluginConfig = [];
+
+  (async () => {
+
+    schemaConfig = await homebridge.getPluginConfigSchema();
+    pluginConfig = await homebridge.getPluginConfig();
+
+    const basicForm = homebridge.createForm(schemaConfig, pluginConfig[0], 'Proceed', 'Abort');
+
+    basicForm.onSubmit((formData) => {
+      updateConfig([formData]).then((configSave) => {
+        if(!configSave || !configSave[0].accessToken || configSave[0].accessToken.length === 0) {
+          getCode(configSave[0].username).then((code) => {
+            basicForm.end();
+          });
+        } else {
+          homebridge.toast.success('Settings successfully saved! Please restart Homebridge!');
+        }
+      });
+    });
+  })();
+
+  function getCode(username) {
+    return homebridge.request('/auth/init', {username}).then((result) => {
+      if(result && result.code === 0) {
+        document.getElementById("enter-code").style.display = 'block';
+      }
+
+      return result;
+    });
+  }
+
+  function authenticate(username, authCode) {
+    homebridge.request('/auth/login', {
+      username,
+      authCode
+    }).then((result) => {
+      if(result && result.code === 0) {
+        pluginConfig[0]['accessToken']  = result.result.accessToken;
+        pluginConfig[0]['refreshToken'] = result.result.refreshToken;
+        updateConfig(pluginConfig).then((result) => {
+          document.getElementById("enter-code").style.display = 'none';
+          selectHome();
+        });
+      }
+    });
+  }
+
+  function reconfigureServer(config) {
+    return homebridge.request('/reconfigure', config);
+  }
+
+  function updateConfig(data) {
+    return homebridge.updatePluginConfig(data).then((savedConfig) => {
+      pluginConfig = savedConfig;
+      return reconfigureServer(savedConfig[0]).then((res) => {
+        if(res && res.code === 0) {
+          return savedConfig;
+        }
+      });
+    });
+  }
+
+  function selectHome() {
+    homebridge.request('/aqara/homes', {}).then((result) => {
+      if(result && result.code === 0) {
+        if(result.result.data.length > 1) {
+          result.result.data.forEach((position) => {
+            document.getElementById('positionId').innerHTML += `<option value="${position.positionId}">${position.positionName}</option>`;
+          });
+          document.getElementById("enter-code").style.display = 'none';
+          document.getElementById("enter-home").style.display = 'block';
+        } else {
+          saveHome();
+        }
+      }
+    });
+  }
+
+  function saveHome() {
+    pluginConfig[0]['positionId'] = document.getElementById('positionId').value;
+    updateConfig(pluginConfig).then((result) => {
+      document.getElementById("enter-home").style.display = 'none';
+      homebridge.toast.success('Successfully authenticated! Please save and restart Homebridge!');
+    });
+  }
+</script>
