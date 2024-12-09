@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "Homebridge Aqara IR Controller",
   "name": "homebridge-aqara-ir-controller",
   "version": "1.0.0",
@@ -29,7 +28,8 @@
     "homebridge-plugin"
   ],
   "dependencies": {
-    "@homebridge/plugin-ui-utils": "^2.0.0"
+    "@homebridge/plugin-ui-utils": "^2.0.0",
+    "axios": "^1.7.9"
   },
   "devDependencies": {
     "@types/node": "^18.16.20",
