@@ -5,6 +5,7 @@
 ## Introduction
 Since Aqara is not willing to expose IR based Controllers to to HomeKit, I have decided to hack up this Homebridge plugin...
 Took me a couple of hours, so don't expect a smooth experience, but I am willing to fix the issues if someone reports them. :)
+Difference to other Homebridge Aqara plugins is that this one does not require developer mode activated, but uses Aqara public API.
 
 This plugin currently works with IR AC only, but can easily be expanded for the rest of the Aqara devices.
 I don't think that it makes sense since Aqara already has HomeKit integration for everything else.
@@ -12,7 +13,7 @@ I don't think that it makes sense since Aqara already has HomeKit integration fo
 Keep in mind that this will NOT work for AC Mode Ird control on new Aqara hubs such as M3, since Aqara API won't even list this as a device.
 It works only for manually configured Ird AC controls.
 
-It makes sense for plugin this to be expanded to handle any other Ird control, but I didn't need this.
+It makes sense for this plugin to be expanded to handle any other Ird control, but I didn't need this.
 I might accept wishes, and I will definitively accept pull requests for expansions.
 
 ## Setup
@@ -22,9 +23,9 @@ Don't let many of fields to confuse you.
 
 Since Aqara is charging developers for API access after some request numbers have been reached, I have decided to make it a bit more complicated so that nobody has to pay.
 
-Aqara does offer EVERYONE a free Demo application, that everyone can use.
+Aqara does offer EVERYONE a free Demo application, that everyone can use for themselves.
 
-In order to setup an account, go to <a href="https://developer.aqara.com">Aqara Developer website</a> sign up and log into console.
+In order to setup an account, go to <a href="https://developer.aqara.com">Aqara Developer website</a>, sign up and log into console.
 
 Select Manage Project on the left side, and view Details of the Demo Application.
 
@@ -34,13 +35,13 @@ Select appropriate region in plugin config, and copy the necessary keys of the a
 
 In the username field of the plugin configuration enter your Aqara username, email or mobile number.
 
-If you now how to generate access token, you can paste it directly and hit bottom save button.
+If you know how to generate access token, you can paste it directly and hit bottom save button.
 
-If not, click Proceed, and you will be provided with a field to enter auth code that you will receive over email or SMS.
+If not, leave it empty and click Proceed. You will be provided with a field to enter auth code that you will receive over email or SMS.
 
 Once you enter the code plugin will authenticate.
 
-The only thing left for you is to select Home to integrate with (if you have multiple), and plugin will configure your devices.
+The only thing left for you to do is to select Home to integrate with (if you have multiple), and plugin will configure your devices.
 
 If home is not selected IR AC remotes from ALL homes will be added.
 
@@ -51,7 +52,8 @@ Handles AC control only
 Doesn't have an option to set up cooling/heating range, it's fixed  to 10 - 30
 
 ## Future plans
-To implement this listener at one point.
+To implement this listener at one point and perhaps the rest of the listed limitations.
 
 It would be cool to make a better interface with better UX.
 Homebridge has a terrible way to build interface, especially custom interface, and my plan was to hack this in a couple of hours, so I can't really investigate a way to improve this...
+If some one can, please make a pull request. :)
