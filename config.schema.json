@@ -1,6 +1,7 @@
 {
   "pluginAlias": "AqaraIrController",
   "pluginType": "platform",
+  "name": "AqaraIrController",
   "headerDisplay": "This plugin is currently experimental and under development.",
   "footerDisplay": "For help please see the [homepage](https://github.com/vaxter/homebridge-aqara-ir-controller)",
   "singular": true,

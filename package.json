@@ -25,7 +25,10 @@
     "watch": "npm run build && npm link && nodemon"
   },
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "aqara",
+    "ir",
+    "ac"
   ],
   "dependencies": {
     "@homebridge/plugin-ui-utils": "^2.0.0",
