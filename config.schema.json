@@ -1,7 +1,6 @@
 {
   "pluginAlias": "AqaraIrController",
   "pluginType": "platform",
-  "name": "AqaraIrController",
   "headerDisplay": "This plugin is currently experimental and under development.",
   "footerDisplay": "For help please see the [homepage](https://github.com/vaxter/homebridge-aqara-ir-controller)",
   "singular": true,
@@ -10,6 +9,12 @@
   "schema": {
     "type": "object",
     "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "required": true,
+        "default": "AqaraIrController"
+      },
       "region": {
         "title": "API server region",
         "type": "string",
