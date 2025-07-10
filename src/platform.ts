@@ -52,6 +52,7 @@ export class AqaraIrControllerPlatform implements DynamicPlatformPlugin {
 
   discoverDevices() {
     const irAC: any[] = [];
+    const irTV: any[] = [];
 
     if (this.aqara.accessToken) {
       const filter = {};
@@ -65,6 +66,9 @@ export class AqaraIrControllerPlatform implements DynamicPlatformPlugin {
             if (device.model === 'virtual.ir.ac') {
               irAC.push(device);
             }
+            if (['virtual.ir_local.tv', 'virtual.ir.tv'].includes(device.model)) {
+              irTV.push(device);
+            }
           });
         }, (err) => {
           this.log.debug(err.message);
@@ -77,11 +81,6 @@ export class AqaraIrControllerPlatform implements DynamicPlatformPlugin {
             }).then(data => {
               device['info'] = data.result;
             }));
-            promises.push(this._aqara.call('query.ir.acState', {
-              did: device.did,
-            }).then(data => {
-              device['state'] = data.result;
-            }));
           });
 
           return Promise.all(promises);
@@ -89,6 +88,9 @@ export class AqaraIrControllerPlatform implements DynamicPlatformPlugin {
         .then((data) => {
           irAC.forEach((device) => {
             this.addAccessory(device.deviceName, Categories.AIR_CONDITIONER, device);
+          });
+          irTV.forEach((device) => {
+            this.addAccessory(device.deviceName, Categories.TELEVISION, device);
           });
         });
     }
