@@ -109,7 +109,7 @@ export class AqaraIrControllerPlatform implements DynamicPlatformPlugin {
   }
 
   addAccessory(name: string, category: Categories, config: UnknownContext) {
-    const uuid = this.api.hap.uuid.generate(name);
+    const uuid = this.api.hap.uuid.generate(config.did);
 
     if (!this._accessories[uuid]) {
       this.log.info('Adding new accessory with name %s', name);
